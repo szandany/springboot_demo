@@ -15,8 +15,11 @@ jobs:
 
     runs-on: ubuntu-latest
     services:
+      oracle_dev:
         # Docker Hub image
         image: oracleinanutshell/oracle-xe-11g
+        ports:
+            - 49161:1521
 
 
     steps:
