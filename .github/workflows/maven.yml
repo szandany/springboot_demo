@@ -37,7 +37,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn clean package -Dspring.datasource.url=jdbc:oracle:thin:@127.0.0.1:49161/xe -Dspring.datasource.username=system -Dspring.datasource.password=oracle -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
+#       run: mvn clean package -Dspring.datasource.url=jdbc:oracle:thin:@127.0.0.1:49161/xe -Dspring.datasource.username=system -Dspring.datasource.password=oracle -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
+      run: mvn clean package -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
       
     - uses: actions/upload-artifact@master
       with:
