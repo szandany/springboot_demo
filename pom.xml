@@ -73,6 +73,7 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>4.11.0</version>
 				<configuration>
+					<checksSettingsFile>src/main/resources/liquibase.checks-settings.conf</checksSettingsFile>
 					<propertyFile>${liquibase.propertyFile}</propertyFile>
 					<outputChangeLogFile>dbchangelog.xml</outputChangeLogFile>
 					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
