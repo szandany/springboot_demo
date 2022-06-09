@@ -38,10 +38,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean package -Dspring.datasource.url=${{ secrets.LIQUIBASE_COMMAND_URL }} -Dspring.datasource.username=${{ secrets.LIQUIBASE_COMMAND_USERNAME }} -Dspring.datasource.password=${{ secrets.LIQUIBASE_COMMAND_PASSWORD }} -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
-
-#       run: mvn clean package -Dspring.datasource.url=jdbc:oracle:thin:@127.0.0.1:49161/xe -Dspring.datasource.username=system -Dspring.datasource.password=oracle -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
-      
-      
+            
     - uses: actions/upload-artifact@master
       with:
         name: my-artifact
