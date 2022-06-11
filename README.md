@@ -1,4 +1,4 @@
-## springboot_liquibase_oracle
+## Springboot with Liquibase and Oracle Database
 This is a Maven project that demos how to run a Spring application in CI/CD with the [Liquibase spring integration](https://www.liquibase.org/javadoc/liquibase/integration/spring/SpringLiquibase.html) and the Liquibase [Maven Plugin](https://docs.liquibase.com/tools-integrations/maven/home.html).
 
 ## Workflow
