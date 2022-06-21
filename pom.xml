@@ -74,7 +74,7 @@
 				<version>4.11.0</version>
 				<configuration>
 					<checksSettingsFile>src/main/resources/liquibase.checks-settings.conf</checksSettingsFile>
-					<propertyFile>${liquibase.propertyFile}</propertyFile>
+					<!-- <propertyFile>${liquibase.propertyFile}</propertyFile> -->
 					<!-- changeLogFile>db/changelog/changelog_version-3.2.oracle.sql</changeLogFile -->
 					<outputChangeLogFile>dbchangelog.xml</outputChangeLogFile>
 					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
