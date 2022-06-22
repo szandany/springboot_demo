@@ -22,9 +22,3 @@ end;
 /
 --rollback DROP TRIGGER "SALE_PRIMARY_KEY_TRG"; 
 
-
-
-
---changeset MikeT:4
-GRANT privileges ON object TO user; 
-
