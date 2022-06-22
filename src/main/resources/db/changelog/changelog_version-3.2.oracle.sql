@@ -6,7 +6,6 @@ CREATE TABLE SALES (ID NUMBER NOT NULL, ITEM VARCHAR2(50 BYTE) NOT NULL, QUANTIT
 
 --changeset SonyaV:2
 CREATE SEQUENCE SALE_SEQUENCE START WITH 21 MAXVALUE 100000;
-GRANT privileges ON object TO user;
 --rollback DROP SEQUENCE SALE_SEQUENCE; 
 
 --changeset TsviZ:3
@@ -22,4 +21,7 @@ begin
 end;
 /
 --rollback DROP TRIGGER "SALE_PRIMARY_KEY_TRG"; 
+
+--changeset MikeT:4
+GRANT privileges ON object TO user; 
 
