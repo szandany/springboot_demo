@@ -3,8 +3,8 @@
 version: 2.1
 filters: 
   branches:
-        only:
-          - circleci-project-setup
+    only:
+      - circleci-project-setup
 
 jobs:
   inspect_db_code:
