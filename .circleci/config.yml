@@ -45,7 +45,7 @@ jobs:
     - run:
         name: "Run tests"
         # command: "echo hello world"
-        command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest test"
+        command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest -Dserver.port=8086 -Duser.timezone=CST test"
 
 workflows:
   ci_workflow:
