@@ -7,7 +7,7 @@ filters:
   branches:
     only:
       - circleci-project-setup
-  circleci/shellcheck: circleci/shellcheck@3.1.1
+  shellcheck: circleci/shellcheck@3.1.1
 
 jobs:
   inspect_db_code:
@@ -102,7 +102,7 @@ workflows:
       #     scan-dir: src/main/java
       #     version: slim-latest
       - shellcheck/check:
-          dir: ./myScripts
+          dir: ./src
           exclude: SC2148
       - inspect_db_code
       - build:
