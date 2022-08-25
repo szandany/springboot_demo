@@ -97,7 +97,7 @@ workflows:
   lint-code-with-options:
     jobs:
       - github-super-linter/lint:
-          context: Super-Linter-Options
+          # context: Super-Linter-Options
           scan-dir: src
           version: v4
 
