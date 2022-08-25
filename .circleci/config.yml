@@ -32,11 +32,19 @@ jobs:
 
     steps:
     - checkout
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+          - v1-dependencies- # fallback in case previous cache key is not found
     - run:
         name: "Build app changes"
         command: |
           mvn clean package -Dspring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521/xe -Dspring.datasource.username=system -Dspring.datasource.password=oracle -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
           cp ./target/SalesManager-*-SNAPSHOT.jar /tmp
+    - save_cache:
+          paths:
+             - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
 
     - store_artifacts:
         path: /tmp
