@@ -30,7 +30,6 @@ jobs:
       # Service container image
       - image: oracleinanutshell/oracle-xe-11g
 
-    working_directory: /tmp
     steps:
     - checkout
     - run:
