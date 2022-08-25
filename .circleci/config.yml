@@ -76,6 +76,9 @@ jobs:
         done | tr -d '\r\n') \
         -e test
 
+    - store_test_results:
+    path: test-results
+
 workflows:
   ci_workflow:
     jobs:
