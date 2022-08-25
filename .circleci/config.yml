@@ -30,12 +30,16 @@ jobs:
       # Service container image
       - image: oracleinanutshell/oracle-xe-11g
 
+    working_directory: /tmp
     steps:
     - checkout
     - run:
         name: "Build app changes"
-        # command: "echo hello world"
         command: "mvn clean package -Dspring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521/xe -Dspring.datasource.username=system -Dspring.datasource.password=oracle -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST"
+
+    - store_artifacts:
+          path: /tmp/target
+
   test:
     # Primary container image where all commands run
     docker:
@@ -44,7 +48,6 @@ jobs:
     - checkout
     - run:
         name: "Run tests"
-        # command: "echo hello world"
         command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest -Dserver.port=8086 -Duser.timezone=CST test"
 
 workflows:
