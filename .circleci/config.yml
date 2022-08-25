@@ -62,11 +62,11 @@ jobs:
     docker:
       - image: cimg/openjdk:18.0.2
     steps:
-    - restore_cache:
-    keys:
-      - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
-      - v1-dependencies- # fallback in case previous cache key is not found
     - checkout
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+          - v1-dependencies- # fallback in case previous cache key is not found
     - attach_workspace:
           at: ./target
     # - run:
