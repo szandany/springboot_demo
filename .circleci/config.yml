@@ -68,7 +68,7 @@ jobs:
     #     name: "Run tests"
     #     command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest -Dserver.port=8086 -Duser.timezone=CST test"
     - run: |
-        mvnw mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dserver.port=8086 -Duser.timezone=CST \
+        mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dserver.port=8086 -Duser.timezone=CST \
         -Dtest=$(for file in $(circleci tests glob "src/test/**/**/**.java" \
         | circleci tests split --split-by=timings); \
         do basename $file \
