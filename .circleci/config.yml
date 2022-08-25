@@ -104,6 +104,7 @@ workflows:
       - build:
           requires:
             - inspect_db_code
+            - shellcheck/check
       - test:
           requires:
             - build
