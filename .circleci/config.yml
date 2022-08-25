@@ -98,7 +98,7 @@ workflows:
     jobs:
       - github-super-linter/lint:
           # context: Super-Linter-Options
-          scan-dir: src
+          scan-dir: src/main/java
           version: slim-latest
 
   # ci_workflow:
