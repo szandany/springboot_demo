@@ -99,9 +99,9 @@ workflows:
           exclude: SC2148
       - inspect_db_code
       - github-super-linter/lint:
-        # context: Super-Linter-Options
-        scan-dir: test/java/net/codejava
-        version: slim-latest
+          # context: Super-Linter-Options
+          scan-dir: test/java/net/codejava
+          version: slim-latest
       - build:
           requires:
             - inspect_db_code
