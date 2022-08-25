@@ -99,14 +99,14 @@ workflows:
       - github-super-linter/lint:
           # context: Super-Linter-Options
           scan-dir: src
-          version: v4
+          version: slim-latest
 
-  ci_workflow:
-    jobs:
-      - inspect_db_code
-      - build:
-          requires:
-            - inspect_db_code
-      - test:
-          requires:
-            - build
+  # ci_workflow:
+  #   jobs:
+  #     - inspect_db_code
+  #     - build:
+  #         requires:
+  #           - inspect_db_code
+  #     - test:
+  #         requires:
+  #           - build
