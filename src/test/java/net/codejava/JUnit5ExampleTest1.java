@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 
 // @SpringBootTest
-class JUnit5ExampleTest {
+class JUnit5ExampleTest1 {
 
     @Test
     void justAnExample() {
