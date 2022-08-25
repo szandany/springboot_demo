@@ -91,7 +91,17 @@ jobs:
         path: ~/test-results
 
 workflows:
-  ci_prechecks_workflow:
+  # ci_prechecks_workflow:
+  #   jobs:
+  #     - shellcheck/check:
+  #         dir: ./src
+  #         exclude: SC2148
+  #     - inspect_db_code
+  #     - github-super-linter/lint:
+  #         # context: Super-Linter-Options
+  #         scan-dir: test/java/net/codejava
+  #         version: slim-latest
+  ci_workflow:
     jobs:
       - shellcheck/check:
           dir: ./src
@@ -101,13 +111,10 @@ workflows:
           # context: Super-Linter-Options
           scan-dir: test/java/net/codejava
           version: slim-latest
-  ci_workflow:
-    jobs:
-      - build
-      # - build:
-      #     requires:
-      #       - inspect_db_code
-      #       - shellcheck/check
+      - build:
+          requires:
+            - inspect_db_code
+            - shellcheck/check
       - test:
           requires:
             - build
