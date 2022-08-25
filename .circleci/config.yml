@@ -39,7 +39,7 @@ jobs:
           cp ./target/SalesManager-*-SNAPSHOT.jar /tmp
 
     - store_artifacts:
-        path: /tmp/SalesManager-*-SNAPSHOT.jar
+        path: /tmp
         destination: artifact-file
 
   test:
