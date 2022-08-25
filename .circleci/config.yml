@@ -102,7 +102,7 @@ workflows:
         # context: Super-Linter-Options
         scan-dir: test/java/net/codejava
         version: slim-latest
-      - build
+      - build:
           requires:
             - inspect_db_code
             - shellcheck/check
