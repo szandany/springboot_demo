@@ -39,7 +39,8 @@ jobs:
           cp ./target/SalesManager-*-SNAPSHOT.jar /tmp
 
     - store_artifacts:
-        path: /tmp
+        path: /tmp/SalesManager-*-SNAPSHOT.jar
+        destination: artifact-file
 
   test:
     # Primary container image where all commands run
