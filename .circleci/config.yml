@@ -56,12 +56,16 @@ jobs:
            - target/
 
   test:
-    parallelism: 10 # parallel containers to split the tests among
+    parallelism: 2 # parallel containers to split the tests among
     resource_class: large
     # Primary container image where all commands run
     docker:
       - image: cimg/openjdk:18.0.2
     steps:
+    - restore_cache:
+    keys:
+      - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+      - v1-dependencies- # fallback in case previous cache key is not found
     - checkout
     - attach_workspace:
           at: ./target
