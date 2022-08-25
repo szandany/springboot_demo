@@ -3,10 +3,6 @@
 version: 2.1
 orbs:
   github-super-linter: circleci/github-super-linter@1.0.1
-filters: 
-  branches:
-    only:
-      - circleci-project-setup
   shellcheck: circleci/shellcheck@3.1.1
 
 jobs:
