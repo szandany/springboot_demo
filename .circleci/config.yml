@@ -2,7 +2,7 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 orbs:
-  github-super-linter: circleci/github-super-linter@1.0
+  github-super-linter: circleci/github-super-linter@1.0.1
 filters: 
   branches:
     only:
@@ -94,19 +94,16 @@ jobs:
         path: ~/test-results
 
 workflows:
-  lint-code-with-options:
+  ci_workflow:
     jobs:
-      - github-super-linter/lint:
-          # context: Super-Linter-Options
-          scan-dir: src/main/java
-          version: slim-latest
-
-  # ci_workflow:
-  #   jobs:
-  #     - inspect_db_code
-  #     - build:
-  #         requires:
-  #           - inspect_db_code
-  #     - test:
-  #         requires:
-  #           - build
+      # - github-super-linter/lint:
+      #     # context: Super-Linter-Options
+      #     scan-dir: src/main/java
+      #     version: slim-latest
+      - inspect_db_code
+      - build:
+          requires:
+            - inspect_db_code
+      - test:
+          requires:
+            - build
