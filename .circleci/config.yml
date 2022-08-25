@@ -91,7 +91,7 @@ jobs:
         path: ~/test-results
 
 workflows:
-  prechecks_workflow:
+  ci_prechecks:
     jobs:
       - shellcheck/check:
           dir: ./src
@@ -101,7 +101,7 @@ workflows:
         # context: Super-Linter-Options
         scan-dir: test/java/net/codejava
         version: slim-latest
-  ci_workflow:
+  ci:
     jobs:
       - build:
           requires:
