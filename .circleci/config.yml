@@ -30,7 +30,7 @@ jobs:
       # Service container image
       - image: oracleinanutshell/oracle-xe-11g
 
-    working_directory: /tmp
+    working_directory: ~/project
     steps:
     - checkout
     - run:
@@ -38,7 +38,7 @@ jobs:
         command: "mvn clean package -Dspring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521/xe -Dspring.datasource.username=system -Dspring.datasource.password=oracle -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST"
 
     - store_artifacts:
-          path: /tmp/target
+          path: ~/project/target
 
   test:
     # Primary container image where all commands run
