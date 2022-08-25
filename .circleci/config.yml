@@ -54,7 +54,7 @@ jobs:
          paths:
            - target/
 
-  test:
+  unit_testing:
     parallelism: 2 # parallel containers to split the tests among
     resource_class: large
     # Primary container image where all commands run
@@ -91,16 +91,6 @@ jobs:
         path: ~/test-results
 
 workflows:
-  # ci_prechecks_workflow:
-  #   jobs:
-  #     - shellcheck/check:
-  #         dir: ./src
-  #         exclude: SC2148
-  #     - inspect_db_code
-  #     - github-super-linter/lint:
-  #         # context: Super-Linter-Options
-  #         scan-dir: test/java/net/codejava
-  #         version: slim-latest
   ci_workflow:
     jobs:
       - shellcheck/check:
@@ -116,6 +106,6 @@ workflows:
             - inspect_db_code
             - shellcheck/check
             - github-super-linter/lint
-      - test:
+      - unit_testing:
           requires:
             - build
