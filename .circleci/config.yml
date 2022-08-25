@@ -50,12 +50,19 @@ jobs:
         path: /tmp
         destination: artifact-file
 
+    - persist_to_workspace:
+         root: ./
+         paths:
+           - target/
+
   test:
     # Primary container image where all commands run
     docker:
       - image: cimg/openjdk:18.0.2
     steps:
     - checkout
+    - attach_workspace:
+          at: ./target
     - run:
         name: "Run tests"
         command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest -Dserver.port=8086 -Duser.timezone=CST test"
