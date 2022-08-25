@@ -103,10 +103,11 @@ workflows:
           version: slim-latest
   ci_workflow:
     jobs:
-      - build:
-          requires:
-            - inspect_db_code
-            - shellcheck/check
+      - build
+      # - build:
+      #     requires:
+      #       - inspect_db_code
+      #       - shellcheck/check
       - test:
           requires:
             - build
