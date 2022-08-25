@@ -56,6 +56,7 @@ jobs:
            - target/
 
   test:
+    parallelism: 2 # parallel containers to split the tests among
     # Primary container image where all commands run
     docker:
       - image: cimg/openjdk:18.0.2
@@ -63,9 +64,17 @@ jobs:
     - checkout
     - attach_workspace:
           at: ./target
-    - run:
-        name: "Run tests"
-        command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest -Dserver.port=8086 -Duser.timezone=CST test"
+    # - run:
+    #     name: "Run tests"
+    #     command: "mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dtest=JUnit5ExampleTest2,JUnit5ExampleTest -Dserver.port=8086 -Duser.timezone=CST test"
+    - run: |
+        mvnw mvn -Dspring.datasource.url=$TESTDB_URL -Dspring.datasource.username=$TESTDB_USERNAME -Dspring.datasource.password=$TESTDB_PASSWORD -Dserver.port=8086 -Duser.timezone=CST \
+        -Dtest=$(for file in $(circleci tests glob "src/test/**/**/**.java" \
+        | circleci tests split --split-by=timings); \
+        do basename $file \
+        | sed -e "s/.java/,/"; \
+        done | tr -d '\r\n') \
+        -e test
 
 workflows:
   ci_workflow:
