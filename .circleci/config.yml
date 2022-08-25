@@ -115,6 +115,7 @@ workflows:
           requires:
             - inspect_db_code
             - shellcheck/check
+            - github-super-linter/lint
       - test:
           requires:
             - build
