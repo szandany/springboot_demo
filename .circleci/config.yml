@@ -53,6 +53,30 @@ jobs:
          root: ./
          paths:
            - target/
+  acceptance_testing_1:
+    docker:
+      - image: cimg/openjdk:18.0.2
+    steps:
+      - checkout
+      - run: java --version
+  acceptance_testing_2:
+    docker:
+      - image: cimg/openjdk:18.0.2
+    steps:
+      - checkout
+      - run: java --version
+  sys_integration_testing_1:
+    docker:
+      - image: cimg/openjdk:18.0.2
+    steps:
+      - checkout
+      - run: java --version
+  sys_integration_testing_2:
+    docker:
+      - image: cimg/openjdk:18.0.2
+    steps:
+      - checkout
+      - run: java --version
 
   unit_testing:
     parallelism: 2 # parallel containers to split the tests among
@@ -107,5 +131,17 @@ workflows:
             - shellcheck/check
             - github-super-linter/lint
       - unit_testing:
+          requires:
+            - build
+      - acceptance_testing_1:
+          requires:
+            - build
+      - acceptance_testing_2:
+          requires:
+            - build
+      - sys_integration_testing_1:
+          requires:
+            - build
+      - sys_integration_testing_2:
           requires:
             - build
