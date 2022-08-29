@@ -121,7 +121,7 @@ jobs:
     steps:
     - checkout
     - attach_workspace:
-          at: ./target
+          at: ./
     - run: |
         cd ansible
         ansible-playbook playbooks/deploy_artifacts.yml

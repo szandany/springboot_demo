@@ -10,7 +10,7 @@
         "~/project/target/SalesManager-*-SNAPSHOT.jar"
     - name: execute jar
       shell: |
-        nohup java -jar ~/server/SalesManager-*-SNAPSHOT.jar &
+        nohup java -jar ~/project/target/SalesManager-*-SNAPSHOT.jar &
       vars: 
           MYVAR: "$ADR"
       register: shell_output
