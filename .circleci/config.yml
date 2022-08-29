@@ -113,6 +113,15 @@ jobs:
 
     - store_test_results:
         path: ~/test-results
+  
+  deploy:
+    resource_class: large
+    docker:
+      - image: idealista/java-debian-ansible:3.2.0-debian9
+    steps:
+    - attach_workspace:
+          at: ./target
+    - run: ansible-playbook ansible/playbooks/deploy_artifacts.yml
 
 workflows:
   ci_workflow:

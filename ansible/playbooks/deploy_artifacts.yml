@@ -1,0 +1,17 @@
+---
+- name: Deploy Artifacts
+  hosts: webserver
+  tasks:
+    - name: copy assets
+      copy:
+        src: "{{ item }}"
+        dest: ~/server
+      with_fileglob:
+        "~/project/target/SalesManager-*-SNAPSHOT.jar"
+    - name: execute jar
+      shell: |
+        nohup java -jar ~/server/SalesManager-*-SNAPSHOT.jar &
+      vars: 
+          MYVAR: "$ADR"
+      register: shell_output
+    - debug: var=shell_output
