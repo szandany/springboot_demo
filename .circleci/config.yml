@@ -119,6 +119,7 @@ jobs:
     docker:
       - image: idealista/java-debian-ansible:3.2.0-debian9
     steps:
+    - checkout
     - attach_workspace:
           at: ./target
     - run: ansible-playbook ansible/playbooks/deploy_artifacts.yml
