@@ -122,7 +122,10 @@ jobs:
     - checkout
     - attach_workspace:
           at: ./target
-    - run: ansible-playbook ansible/playbooks/deploy_artifacts.yml
+    - run: |
+        cd ansible
+        ansible-playbook playbooks/deploy_artifacts.yml
+        lsof -i :8086
 
 workflows:
   ci_workflow:
