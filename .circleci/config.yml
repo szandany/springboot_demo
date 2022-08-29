@@ -154,3 +154,10 @@ workflows:
       - sys_integration_testing_2:
           requires:
             - build
+      - deploy:
+          requires:
+            - unit_testing
+            - acceptance_testing_1
+            - acceptance_testing_2
+            - sys_integration_testing_1
+            - sys_integration_testing_2
