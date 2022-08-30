@@ -157,10 +157,16 @@ workflows:
       - sys_integration_testing_2:
           requires:
             - build
-      - deploy:
+      
+      - hold-deployment-for-approval:
           requires:
             - unit_testing
             - acceptance_testing_1
             - acceptance_testing_2
             - sys_integration_testing_1
             - sys_integration_testing_2
+          type: approval
+
+      - deploy:
+          requires:
+            - hold-deployment-for-approval
