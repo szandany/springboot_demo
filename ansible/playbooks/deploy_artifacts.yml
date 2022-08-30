@@ -11,6 +11,7 @@
     - name: execute jar
       shell: |
         nohup java -jar ~/server/SalesManager-*-SNAPSHOT.jar &
+        lsof -i :8086
       vars: 
           MYVAR: "$ADR"
       register: shell_output

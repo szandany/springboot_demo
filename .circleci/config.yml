@@ -125,7 +125,6 @@ jobs:
     - run: |
         cd ansible
         ansible-playbook playbooks/deploy_artifacts.yml
-        lsof -i :8086
 
 workflows:
   ci_workflow:
