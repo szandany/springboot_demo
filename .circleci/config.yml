@@ -123,8 +123,6 @@ jobs:
     - attach_workspace:
           at: ./
     - run: |
-        echo "Host *" >> ~/.ssh/config
-        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
         cd ansible
         ansible-playbook playbooks/deploy_artifacts.yml
         lsof -i :8086
