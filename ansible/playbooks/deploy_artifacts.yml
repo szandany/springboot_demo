@@ -2,10 +2,6 @@
 - name: Deploy Artifacts
   hosts: webserver
   tasks:
-    - name: execute jar
-      shell: |
-        echo "Host *" >> ~/.ssh/config
-        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
     - name: copy assets
       copy:
         src: "{{ item }}"
