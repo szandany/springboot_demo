@@ -19,8 +19,6 @@ jobs:
       - run: 
           name: "Run Liquibase Quality Checks"
           command: "liquibase --changeLogFile=src/main/resources/db/changelog/changelog_version-3.2.oracle.sql checks run"
-
-  
   build:
     # Primary container image where all commands run
     docker:
@@ -77,7 +75,6 @@ jobs:
     steps:
       - checkout
       - run: java --version
-
   unit_testing:
     parallelism: 2 # parallel containers to split the tests among
     resource_class: large
@@ -113,7 +110,6 @@ jobs:
 
     - store_test_results:
         path: ~/test-results
-  
   deploy:
     resource_class: large
     docker:
@@ -156,8 +152,7 @@ workflows:
             - build
       - sys_integration_testing_2:
           requires:
-            - build
-      
+            - build   
       - hold-deployment-for-approval:
           requires:
             - unit_testing
@@ -166,7 +161,10 @@ workflows:
             - sys_integration_testing_1
             - sys_integration_testing_2
           type: approval
-
       - deploy:
           requires:
             - hold-deployment-for-approval
+          filters:
+                  branches:
+                    only:
+                      - main
