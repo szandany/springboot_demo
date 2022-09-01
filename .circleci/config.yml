@@ -160,6 +160,10 @@ workflows:
             - acceptance_testing_2
             - sys_integration_testing_1
             - sys_integration_testing_2
+          filters:
+                  branches:
+                    only:
+                      - main
           type: approval
       - deploy:
           requires:
