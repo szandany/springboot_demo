@@ -113,7 +113,7 @@ jobs:
   deploy:
     resource_class: large
     docker:
-      - image: idealista/java-debian-ansible:3.2.0-debian9
+      - image: cimg/deploy:2022.08
     steps:
     - checkout
     - attach_workspace:
