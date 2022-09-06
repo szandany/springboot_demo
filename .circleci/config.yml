@@ -110,6 +110,9 @@ jobs:
     docker:
       - image: cimg/deploy:2022.08
     steps:
+    - add_ssh_keys:
+        fingerprints:
+          - "d0:71:c2:74:f8:5c:06:ff:4e:62:cf:13:8e:29:d7:66"
     - checkout
     - attach_workspace:
           at: ./
