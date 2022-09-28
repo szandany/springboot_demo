@@ -17,6 +17,6 @@ docker_images := {image | walk(input, [path, value])
                           image := value[_].image}    
 # grab the images from that section
 
-soft_fail["use_official_docker_image"]
+hard_fail["use_official_docker_image"]
 
-enable_rule["use_official_docker_image"]
+# enable_rule["use_official_docker_image"]
