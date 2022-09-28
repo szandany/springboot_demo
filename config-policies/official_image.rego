@@ -5,7 +5,7 @@ policy_name["use_official_docker_image"]
 
 use_official_docker_image[image] = reason {
   some image in docker_images   # docker_images are parsed below
-  not startswith(image, "circleci")
+  not startswith(image, "cimg")
   reason := sprintf("%s is not an approved Docker image", [image])
 }
 

@@ -8,7 +8,7 @@ orbs:
 jobs:
   inspect_db_code:
     docker:
-      - image: liquibase/liquibase:3.9.0
+      - image: liquibase/liquibase:4.8.0
 
     steps:
       - checkout
