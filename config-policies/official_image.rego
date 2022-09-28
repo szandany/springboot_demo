@@ -19,4 +19,4 @@ docker_images := {image | walk(input, [path, value])
 
 hard_fail["use_official_docker_image"]
 
-enable_rule["use_official_docker_image"]
+# enable_rule["use_official_docker_image"]
