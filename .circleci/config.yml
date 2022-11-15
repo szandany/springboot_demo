@@ -41,7 +41,7 @@ jobs:
         command: |
           echo 'export TAG_VERSION=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
           curl --request POST \
-              --url https://circleci.com/api/v2/project/gh/AwesomeCICD/circleci-demo-java-spring-mvn/envvar \
+              --url https://circleci.com/api/v2/project/gh/szandany/springboot_demo/envvar \
               --header "Circle-Token: ${API_TOKEN}" \
               --header 'content-type: application/json' \
               --data '{"name":"TAG_VERSION","value":"'"0.1.${CIRCLE_BUILD_NUM}"'"}'
