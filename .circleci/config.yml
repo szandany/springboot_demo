@@ -143,8 +143,13 @@ jobs:
     - attach_workspace:
           at: ./
     - run: |
-        cd ansible
-        ansible-playbook playbooks/deploy_artifacts.yml --extra-vars "VERSION=$TAG_VERSION ECR_IMAGE=$ECR_IMAGE"
+        # cd ansible
+        # ansible-playbook playbooks/deploy_artifacts.yml --extra-vars "VERSION=$TAG_VERSION ECR_IMAGE=$ECR_IMAGE"
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        aws eks update-kubeconfig --name sz-cluster
+        kubectl create -f deployment.yaml
 workflows:
   ci_workflow:
     jobs:
@@ -189,6 +194,8 @@ workflows:
                       - main
           type: approval
       - deploy:
+          context: 
+            - tsvi-secrets
           requires:
             - hold-deployment-for-approval
           filters:
