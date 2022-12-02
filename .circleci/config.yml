@@ -143,7 +143,7 @@ jobs:
     - attach_workspace:
           at: ./
     - run:
-        name: "Deploying to EKS Fargate Cluster"
+        name: "Deploying to EKS Fargate Cluster using OpenID Connect Protocol"
         command: |
           # cd ansible; ansible-playbook playbooks/deploy_artifacts.yml --extra-vars "VERSION=$TAG_VERSION ECR_IMAGE=$ECR_IMAGE"
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -151,7 +151,7 @@ jobs:
           sudo ./aws/install
           read -r AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN \<<< \
             $(aws sts assume-role-with-web-identity \
-            --role-arn "arn:aws:iam::483285841698:role/sz-oidc-role" \
+            --role-arn $ROLE_ARN \
             --role-session-name "CircleCI-${CIRCLE_WORKFLOW_ID}-${CIRCLE_JOB}" \
             --web-identity-token $CIRCLE_OIDC_TOKEN \
             --duration-seconds 900 \
