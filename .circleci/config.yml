@@ -3,6 +3,7 @@ orbs:
   inspect_app_code_linter: circleci/github-super-linter@1.0.1
   inspect_app_code_shell: circleci/shellcheck@3.1.2
   aws-ecr: circleci/aws-ecr@8.1.3
+  aws-cli: circleci/aws-cli@3.1
 
 jobs:
   inspect_db_code:
@@ -136,28 +137,13 @@ jobs:
     docker:
       - image: cimg/deploy:2022.08
     steps:
-    - add_ssh_keys:
-        fingerprints:
-          - 1f:2d:20:14:22:00:e6:4c:a4:db:90:31:00:d8:01:77
     - checkout
-    - attach_workspace:
-          at: ./
+    - aws-cli/setup:
+        role-arn: '$ROLE_ARN'
+        role-session-name: "CircleCI-${CIRCLE_WORKFLOW_ID}-${CIRCLE_JOB}"
     - run:
         name: "Deploying to EKS Fargate Cluster using OpenID Connect Protocol"
         command: |
-          # cd ansible; ansible-playbook playbooks/deploy_artifacts.yml --extra-vars "VERSION=$TAG_VERSION ECR_IMAGE=$ECR_IMAGE"
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip -qq awscliv2.zip
-          sudo ./aws/install
-          read -r AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN \<<< \
-            $(aws sts assume-role-with-web-identity \
-            --role-arn $ROLE_ARN \
-            --role-session-name "CircleCI-${CIRCLE_WORKFLOW_ID}-${CIRCLE_JOB}" \
-            --web-identity-token $CIRCLE_OIDC_TOKEN \
-            --duration-seconds 900 \
-            --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
-            --output text)
-          export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
           aws eks update-kubeconfig --name sz-cluster
           kubectl apply -f deployment.yaml
 workflows:
