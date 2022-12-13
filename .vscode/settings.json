@@ -15,5 +15,6 @@
         "statusBarItem.remoteForeground": "#e7e7e7",
         "tab.activeBorder": "#009700"
     },
-    "peacock.color": "#006400"
+    "peacock.color": "#006400",
+    "java.configuration.updateBuildConfiguration": "disabled"
 }
