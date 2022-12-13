@@ -10,7 +10,7 @@
 
 	<groupId>net.codejava</groupId>
 	<artifactId>SalesManager</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 
