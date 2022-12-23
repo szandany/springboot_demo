@@ -1,0 +1,5 @@
+{
+  "image": "cimg/openjdk:18.0.2",
+  "features": {
+  }
+}
