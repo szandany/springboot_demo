@@ -28,7 +28,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     services:
       oracle_dev:
@@ -63,7 +62,19 @@ jobs:
         with:
           name: my-artifact
           path: target/
-
+  test:
+    name: UAT
+    runs-on: ubuntu-latest
+    container:
+      image: cimg/openjdk:18.0.2
+    strategy:
+      fail-fast: true
+      matrix:
+        ci_node_total: [2]
+        ci_node_index: [0, 1]
+    steps:
+      - name: Run tests in parrallel
+        run: echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
 #       - name: Install cosign
