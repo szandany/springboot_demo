@@ -20,6 +20,7 @@ on:
 #     - develop
     
 env:
+  total-runners: 5
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
@@ -62,23 +63,50 @@ jobs:
         with:
           name: my-artifact
           path: target/
-  test:
-    name: UAT
+
+  runner-indexes:
     runs-on: ubuntu-latest
+    name: Generate runner indexes
+    outputs:
+      json: ${{ steps.generate-index-list.outputs.json }}
+    steps:
+      - id: generate-index-list
+        run: |
+          MAX_INDEX=$((${{ env.total-runners }}-1))
+          INDEX_LIST=$(seq 0 ${MAX_INDEX})
+          INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
+          echo "::set-output name=json::${INDEX_JSON}"
+  
+  run-parallel-tests:
+    name: UAT
+    runs-on: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
+    needs:
+      - runner-indexes
     container:
       image: maven:3.8-ibmjava
     strategy:
       fail-fast: true
       matrix:
-        ci_node_total: [4]
-        ci_node_index: [0, 1, 2, 3]
+        runner-index: ${{ fromjson(needs.runner-indexes.outputs.json) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      - name: Run tests in parrallel
-        run: |
-          echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
-          mvn -Dtest=$(for file in $( find "src/test/" -type f -name '*.java' ); do basename $file | sed -e "s/.java/,/"; done | tr -d '\r\n') -e test
+      - uses: chaosaffe/split-tests@v1-alpha.1
+        id: split-tests
+        name: Split tests
+        with:
+          glob: src/test/**/**/**.java
+          split-total: ${{ env.total-runners }}
+          split-index: ${{ matrix.runner-index }}
+      - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
+      # - name: Run tests in parrallel
+      #   run: |
+      #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
+      #     mvn -Dtest=$(for file in $( find "src/test/" -type f -name '*.java' ); do basename $file | sed -e "s/.java/,/"; done | tr -d '\r\n') -e test
+      
+      
+      
+      
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
 #       - name: Install cosign
