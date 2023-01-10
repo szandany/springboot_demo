@@ -70,11 +70,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        ci_node_total: [2]
-        ci_node_index: [0, 1]
+        ci_node_total: [4]
+        ci_node_index: [0, 3]
     steps:
       - name: Run tests in parrallel
-        run: echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
+        run: |
+          echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
+          mvn -Dtest=$(for file in $( find "src/test/" -type f -name '*.java' ); do basename $file | sed -e "s/.java/,/"; done | tr -d '\r\n') -e test
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
 #       - name: Install cosign
