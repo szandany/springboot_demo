@@ -95,7 +95,7 @@ jobs:
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
-        line-count: true
+        # line-count: true
         with:
           glob: src/test/**/**/**.java
           split-total: ${{ env.total-runners }}
