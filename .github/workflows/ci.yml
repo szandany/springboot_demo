@@ -71,10 +71,10 @@ jobs:
       fail-fast: true
       matrix:
         ci_node_total: [4]
-        ci_node_index: [0, 3]
+        ci_node_index: [0, 1, 2, 3]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Run tests in parrallel
         run: |
           echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
