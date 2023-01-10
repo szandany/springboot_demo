@@ -79,7 +79,8 @@ jobs:
   
   run-parallel-tests:
     name: UAT
-    runs-on: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
+    runs-on: ubuntu-latest
+  #  runs-on: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
     needs:
       - runner-indexes
     container:
