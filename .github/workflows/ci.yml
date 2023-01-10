@@ -101,7 +101,8 @@ jobs:
           split-total: ${{ env.total-runners }}
           split-index: ${{ matrix.runner-index }}
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
-      - run: basename ${{ steps.split-tests.outputs.test-suite }} | sed -e "s/.java//" | tr -d '\r\n'
+      - run: |
+          for file in "${{ steps.split-tests.outputs.test-suite }}";do mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test; done
       # - name: Run tests in parrallel
       #   run: |
       #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
