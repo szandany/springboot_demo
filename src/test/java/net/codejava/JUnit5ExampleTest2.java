@@ -16,7 +16,7 @@ class JUnit5ExampleTest2 {
 
     @Test
     void justAnExample() {
-      System.out.println("\n\nUnit Testing...\n\n");
+      System.out.println("\n\nTest2-1 Successful!\n\n");
     }
 
     @Test
@@ -28,6 +28,6 @@ class JUnit5ExampleTest2 {
     @Test
     void shouldNotBeEqual() {
       assertEquals(EXPECTED, ACTUAL-5);
-      System.out.println("\n\nTest2 Successful!\n\n");
+      System.out.println("\n\nTest2-2 Successful!\n\n");
     }
 }
