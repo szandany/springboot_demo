@@ -107,7 +107,6 @@ jobs:
           do
               mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
-          for file in ${LIST};do mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test; done
       # - name: Run tests in parrallel
       #   run: |
       #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
