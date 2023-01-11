@@ -20,7 +20,7 @@ on:
 #     - develop
     
 env:
-  total-runners: 3
+  total-runners: 5
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
@@ -75,7 +75,7 @@ jobs:
           MAX_INDEX=$((${{ env.total-runners }}-1))
           INDEX_LIST=$(seq 0 ${MAX_INDEX})
           INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
-          echo "::set-output name=json::${INDEX_JSON}"
+          echo "json=${INDEX_JSON}" >> $GITHUB_OUTPUT
   
   run-parallel-tests:
     name: UAT
