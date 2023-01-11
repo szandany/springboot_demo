@@ -20,7 +20,7 @@ on:
 #     - develop
     
 env:
-  total-runners: 1
+  total-runners: 2
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
