@@ -100,6 +100,7 @@ jobs:
           glob: src/test/**/**/**.java
           split-total: ${{ env.total-runners }}
           split-index: ${{ matrix.runner-index }}
+          junit-path: .*/target/surefire-reports/.*xml
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
