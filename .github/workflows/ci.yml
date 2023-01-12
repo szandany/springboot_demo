@@ -96,8 +96,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: tests_results
-          path: |
-            target/surefire-reports
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
