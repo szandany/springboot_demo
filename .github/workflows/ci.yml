@@ -106,7 +106,7 @@ jobs:
         with:
           name: dist-without-markdown
           path: |
-            .*/target/surefire-reports/.*xml
+            ./target/surefire-reports
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
