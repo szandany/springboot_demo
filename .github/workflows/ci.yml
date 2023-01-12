@@ -92,6 +92,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
+      # - name: Download test results
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: Download previous tests results
+      #     path: |
+      #       target/surefire-reports
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -109,7 +115,7 @@ jobs:
               mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
       - name: Archive Test Results
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: tests_results
           path: |
