@@ -102,7 +102,7 @@ jobs:
           junit-path: .*/target/surefire-reports/.*xml
           line-count: true
       - name: Archive Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@master
         with:
           name: tests_results
           path: |
