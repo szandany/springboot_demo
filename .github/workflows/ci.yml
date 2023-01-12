@@ -104,9 +104,9 @@ jobs:
       - name: Archive Test Results
         uses: actions/upload-artifact@v3
         with:
-          name: dist-without-markdown
+          name: tests_results
           path: |
-            ./target/surefire-reports
+            target/surefire-reports
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
