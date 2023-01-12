@@ -92,10 +92,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      # - name: Download test results
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: tests_results
+      - name: Download test results
+        uses: actions/download-artifact@v3
+        with:
+          name: tests_results
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
