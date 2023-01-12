@@ -101,12 +101,6 @@ jobs:
           split-index: ${{ matrix.runner-index }}
           junit-path: .*/target/surefire-reports/.*xml
           line-count: true
-      - name: Archive Test Results
-        uses: actions/upload-artifact@master
-        with:
-          name: tests_results
-          path: |
-            target/surefire-reports
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
@@ -114,6 +108,12 @@ jobs:
           do
               mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
+      - name: Archive Test Results
+        uses: actions/upload-artifact@master
+        with:
+          name: tests_results
+          path: |
+            target/surefire-reports
       # - name: Run tests in parrallel
       #   run: |
       #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
