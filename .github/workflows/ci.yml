@@ -75,8 +75,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - runner-indexes
-    # container:
-    #   image: maven:3.8-ibmjava
+    container:
+      image: maven:3.8-ibmjava
     strategy:
       fail-fast: true
       matrix:
@@ -84,12 +84,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: maven
+      # - name: Setup Java
+      #   uses: actions/setup-java@v2
+      #   with:
+      #     java-version: '11'
+      #     distribution: 'temurin'
+      #     cache: maven
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
