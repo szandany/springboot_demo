@@ -31,19 +31,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Running Liquibase Quality Checks
-        run: |
-          mvn process-resources liquibase:checks.run
-      - name: Build with Maven
-        run: |
-          mvn clean package -Dspring.datasource.url=${{ secrets.LIQUIBASE_COMMAND_URL }} -Dspring.datasource.username=${{ secrets.LIQUIBASE_COMMAND_USERNAME }} -Dspring.datasource.password=${{ secrets.LIQUIBASE_COMMAND_PASSWORD }} -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
           path: /root/.m2
           key: ${{ runner.os }}-build-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-build-
-
+      - name: Running Liquibase Quality Checks
+        run: |
+          mvn process-resources liquibase:checks.run
+      - name: Build with Maven
+        run: |
+          mvn clean package -Dspring.datasource.url=${{ secrets.LIQUIBASE_COMMAND_URL }} -Dspring.datasource.username=${{ secrets.LIQUIBASE_COMMAND_USERNAME }} -Dspring.datasource.password=${{ secrets.LIQUIBASE_COMMAND_PASSWORD }} -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
       - uses: actions/upload-artifact@master
         with:
           name: my-artifact
