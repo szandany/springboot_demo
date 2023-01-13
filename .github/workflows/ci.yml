@@ -90,13 +90,21 @@ jobs:
       matrix:
         runner-index: ${{ fromjson(needs.runner-indexes.outputs.json) }}
     steps:
+      - name: Cache Test Results
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./target/surefire-reports
+            ~/.m2
+          key: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('.*/target/surefire-reports/.*xml') }}
+          restore-keys: |
+                ${{ runner.os }}-build-${{ env.cache-name }}-
+                ${{ runner.os }}-build-
+                ${{ runner.os }}-
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -113,15 +121,13 @@ jobs:
           do
               mvn clean -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
-      - name: Cache Test Results
-        uses: actions/cache@v3
-        with:
-          path: target/surefire-reports
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('.*/target/surefire-reports/.*xml') }}
-          restore-keys: |
-                ${{ runner.os }}-build-${{ env.cache-name }}-
-                ${{ runner.os }}-build-
-                ${{ runner.os }}-
+
+
+
+
+
+
+
       # - name: Run tests in parrallel
       #   run: |
       #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
