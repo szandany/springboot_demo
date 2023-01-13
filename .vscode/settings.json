@@ -16,6 +16,6 @@
         "tab.activeBorder": "#009700"
     },
     "peacock.color": "#006400",
-    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.updateBuildConfiguration": "disabled",
     "java.compile.nullAnalysis.mode": "automatic"
 }

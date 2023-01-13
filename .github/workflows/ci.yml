@@ -113,7 +113,7 @@ jobs:
           do
               mvn clean -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
-      - name: Cache Test Results
+      - name: Cache dependencies
         id: cache-save
         uses: actions/cache/save@v3
         with:
