@@ -1,18 +1,10 @@
 name: CI
 
 on:
-#   schedule:
-#     - cron: '16 3 * * *'
   push:
     branches:
     - main
     - develop
-    # Publish semver tags as releases.
-#     tags: [ 'v*.*.*' ]
-#   pull_request:
-#     branches:
-#     - main
-#     - develop
     
 env:
   total-runners: 5
@@ -25,9 +17,10 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: maven:3.8-ibmjava
     services:
       oracle_dev:
-        # Docker Hub image
         image: oracleinanutshell/oracle-xe-11g
         ports:
             - 49161:1521
@@ -39,36 +32,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: maven
       - name: Running Liquibase Quality Checks
         run: |
           mvn process-resources liquibase:checks.run
       - name: Build with Maven
         run: |
           mvn clean package -Dspring.datasource.url=${{ secrets.LIQUIBASE_COMMAND_URL }} -Dspring.datasource.username=${{ secrets.LIQUIBASE_COMMAND_USERNAME }} -Dspring.datasource.password=${{ secrets.LIQUIBASE_COMMAND_PASSWORD }} -Dspring.liquibase.change-log=classpath:db/changelog/changelog_version-3.2.oracle.sql -Dserver.port=8086 -Duser.timezone=CST
-      
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: /root/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
       - uses: actions/upload-artifact@master
         with:
           name: my-artifact
           path: target/
-
-  runner-indexes:
-    runs-on: ubuntu-latest
-    name: Generate runner indexes
-    outputs:
-      json: ${{ steps.generate-index-list.outputs.json }}
-    steps:
-      - id: generate-index-list
-        run: |
-          MAX_INDEX=$((${{ env.total-runners }}-1))
-          INDEX_LIST=$(seq 0 ${MAX_INDEX})
-          INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
-          echo "json=${INDEX_JSON}" >> $GITHUB_OUTPUT
   
   run-parallel-tests:
     name: UAT
@@ -77,8 +56,6 @@ jobs:
       - runner-indexes
     container:
       image: maven:3.8-ibmjava
-    #   volumes:
-    #     - /home/runner/.m2:/root/.m2
     strategy:
       fail-fast: true
       matrix:
@@ -86,12 +63,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      # - name: Setup Java
-      #   uses: actions/setup-java@v2
-      #   with:
-      #     java-version: '11'
-      #     distribution: 'temurin'
-      #     cache: maven
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -109,23 +80,26 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
       - run: |
-          # ls /root/.m2
-          # ls /home/runner/.m2
-          # ls /home/runner/.m2/repository
-          # mvn help:evaluate -Dexpression=settings.localRepository
           LIST="${{ steps.split-tests.outputs.test-suite }}"
           for file in $LIST
           do
               mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
 
-      # - name: Run tests in parrallel
-      #   run: |
-      #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
-      #     mvn -Dtest=$(for file in $( find "src/test/" -type f -name '*.java' ); do basename $file | sed -e "s/.java/,/"; done | tr -d '\r\n') -e test
-      
-      
-      
+  runner-indexes:
+    runs-on: ubuntu-latest
+    name: Generate runner indexes
+    outputs:
+      json: ${{ steps.generate-index-list.outputs.json }}
+    steps:
+      - id: generate-index-list
+        run: |
+          MAX_INDEX=$((${{ env.total-runners }}-1))
+          INDEX_LIST=$(seq 0 ${MAX_INDEX})
+          INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
+          echo "json=${INDEX_JSON}" >> $GITHUB_OUTPUT
+
+
       
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
