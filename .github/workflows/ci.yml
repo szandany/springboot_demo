@@ -109,6 +109,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
       - run: |
+          mvn help:evaluate -Dexpression=settings.localRepository
           LIST="${{ steps.split-tests.outputs.test-suite }}"
           for file in $LIST
           do
