@@ -97,12 +97,6 @@ jobs:
       #   with:
       #     path: ~/.m2
       #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -113,11 +107,17 @@ jobs:
           junit-path: ./target/surefire-reports/
           line-count: true
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
           for file in $LIST
           do
-              mvn clean -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
+              mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
       # - name: Cache dependencies
       #   id: cache-save
