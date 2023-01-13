@@ -110,8 +110,8 @@ jobs:
           restore-keys: ${{ runner.os }}-m2-
       - run: |
           # ls /root/.m2
-          ls /home/runner/.m2
-          ls /home/runner/.m2/repository
+          # ls /home/runner/.m2
+          # ls /home/runner/.m2/repository
           # mvn help:evaluate -Dexpression=settings.localRepository
           LIST="${{ steps.split-tests.outputs.test-suite }}"
           for file in $LIST
