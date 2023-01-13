@@ -41,8 +41,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /root/.m2
-          key: ${{ runner.os }}-m2_build-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-build-
+
       - uses: actions/upload-artifact@master
         with:
           name: my-artifact
@@ -76,8 +77,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /root/.m2
-          key: ${{ runner.os }}-m2_uat-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-uat
+          key: ${{ runner.os }}-uat-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-uat-
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
           for file in $LIST
