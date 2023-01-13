@@ -78,7 +78,7 @@ jobs:
     container:
       image: maven:3.8-ibmjava
       volumes:
-        - ~/.m2:~/.m2
+        - /home/.m2:/root/.m2/repository
     strategy:
       fail-fast: true
       matrix:
