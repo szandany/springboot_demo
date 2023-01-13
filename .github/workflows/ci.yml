@@ -28,7 +28,6 @@ jobs:
       contents: read
       packages: write
       id-token: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
