@@ -92,10 +92,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      # - name: Download test results
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: tests_results
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -115,8 +116,12 @@ jobs:
       - name: Cache Test Results
         uses: actions/cache@v3
         with:
-          path: |
-            target/surefire-reports
+          path: target/surefire-reports
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('.*/target/surefire-reports/.*xml') }}
+          restore-keys: |
+                ${{ runner.os }}-build-${{ env.cache-name }}-
+                ${{ runner.os }}-build-
+                ${{ runner.os }}-
       # - name: Run tests in parrallel
       #   run: |
       #     echo "${{ matrix.ci_node_total }}, ${{ matrix.ci_node_index }}"
