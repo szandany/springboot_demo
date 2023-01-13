@@ -77,6 +77,8 @@ jobs:
       - runner-indexes
     container:
       image: maven:3.8-ibmjava
+      volumes:
+        - ~/.m2:~/.m2
     strategy:
       fail-fast: true
       matrix:
