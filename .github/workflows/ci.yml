@@ -42,7 +42,7 @@ jobs:
         with:
           path: /root/.m2
           key: ${{ runner.os }}-m2_build-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-
+          restore-keys: ${{ runner.os }}-m2-build
       - uses: actions/upload-artifact@master
         with:
           name: my-artifact
@@ -77,7 +77,7 @@ jobs:
         with:
           path: /root/.m2
           key: ${{ runner.os }}-m2_uat-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-
+          restore-keys: ${{ runner.os }}-m2-uat
       - run: |
           LIST="${{ steps.split-tests.outputs.test-suite }}"
           for file in $LIST
