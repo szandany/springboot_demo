@@ -1,10 +1,5 @@
 name: CI
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 on:
 #   schedule:
 #     - cron: '16 3 * * *'
@@ -39,8 +34,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
       id-token: write
 
     steps:
@@ -97,12 +90,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      # - name: Restore cached dependencies
-      #   id: dependencies
-      #   uses: actions/cache/restore@v3
-      #   with:
-      #     path: ~/.m2
-      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -125,13 +112,6 @@ jobs:
           do
               mvn -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
-  
-      # - name: Cache dependencies
-      #   id: cache-save
-      #   uses: actions/cache/save@v3
-      #   with:
-      #     path: ~/.m2
-      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
 
       # - name: Run tests in parrallel
       #   run: |
