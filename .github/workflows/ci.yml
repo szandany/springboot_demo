@@ -91,12 +91,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3.0.2
-      - name: Restore cached dependencies
-        id: dependencies
-        uses: actions/cache/restore@v3
+      # - name: Restore cached dependencies
+      #   id: dependencies
+      #   uses: actions/cache/restore@v3
+      #   with:
+      #     path: ~/.m2
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -113,12 +119,12 @@ jobs:
           do
               mvn clean -Dtest=$(basename $file | sed -e "s/.java/,/" | tr -d '\r\n') -e test 
           done
-      - name: Cache dependencies
-        id: cache-save
-        uses: actions/cache/save@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
+      # - name: Cache dependencies
+      #   id: cache-save
+      #   uses: actions/cache/save@v3
+      #   with:
+      #     path: ~/.m2
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('pom.xml') }}
 
 
 
