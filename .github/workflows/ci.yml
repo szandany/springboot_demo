@@ -100,7 +100,6 @@ jobs:
           INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
           echo "json=${INDEX_JSON}" >> $GITHUB_OUTPUT
 
-
       
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
