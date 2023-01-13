@@ -75,8 +75,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - runner-indexes
-    # container:
-    #   image: maven:3.8-ibmjava
+    container:
+      image: maven:3.8-ibmjava
     #   volumes:
     #     - /home/runner/.m2:/root/.m2
     strategy:
@@ -105,7 +105,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: ~/.m2
+          path: /root/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
       - run: |
