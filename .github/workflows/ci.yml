@@ -68,6 +68,25 @@ jobs:
           path: /root/.m2
           key: ${{ runner.os }}-uat-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-uat-
+      - run: |
+          # Download the latest tests results artifact
+          curl \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/szandany/CCI_springboot_demo/actions/artifacts | jq -r '.artifacts | sort_by(.created_at) | .[] | select(.name == "Test Results") | .id' > artifacts_list.txt
+
+          LATEST_ARTIFACT_NUMBER=$(cut -d: -f 2 artifacts_list.txt | sort -n | tail -n 1)
+
+          curl \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -L -o my_artifact.zip \
+              https://api.github.com/repos/szandany/CCI_springboot_demo/actions/artifacts/"${LATEST_ARTIFACT_NUMBER}"/zip
+
+          mkdir test_results
+          unzip my_artifact.zip -d test_results
       - uses: chaosaffe/split-tests@v1-alpha.1
         id: split-tests
         name: Split tests
@@ -75,7 +94,7 @@ jobs:
           glob: src/test/**/**/**.java
           split-total: ${{ env.total-runners }}
           split-index: ${{ matrix.runner-index }}
-          junit-path: ./target/surefire-reports
+          junit-path: ./test_results
           line-count: true
       - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
       - run: |
