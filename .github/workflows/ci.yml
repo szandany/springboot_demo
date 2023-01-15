@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: maven:3.8-ibmjava
+      image: mrkostin/maven:3.6.0-alpine-git-curl-jq
     services:
       oracle_dev:
         image: oracleinanutshell/oracle-xe-11g
@@ -54,7 +54,7 @@ jobs:
     needs:
       - runner-indexes
     container:
-      image: maven:3.8-ibmjava
+      image: mrkostin/maven:3.6.0-alpine-git-curl-jq
     strategy:
       fail-fast: true
       matrix:
