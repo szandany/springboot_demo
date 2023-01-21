@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
       - develop
+  # pull_request:
+  #   branches:
+  #     - main
+  #     - develop
     
 env:
   total-runners: 5
@@ -111,7 +112,7 @@ jobs:
           name: Test Results
           path: ./target/surefire-reports
 
-  build and publish docker image:
+  build-and-publish-docker-image:
     runs-on: ubuntu-18.04
     needs: [build, uat-parallel-tests]
     steps:
