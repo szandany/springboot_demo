@@ -116,6 +116,10 @@ jobs:
   build-and-publish-docker-image:
     runs-on: ubuntu-18.04
     needs: [build, uat-parallel-tests]
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
