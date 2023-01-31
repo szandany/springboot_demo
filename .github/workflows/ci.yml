@@ -79,7 +79,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/szandany/springboot_demo/actions/artifacts | jq -r '.artifacts | sort_by(.created_at) | .[] | select(.name == "Test Results") | .id' > artifacts_list.txt
+            https://api.github.com/repos/tsviz/springboot_demo/actions/artifacts | jq -r '.artifacts | sort_by(.created_at) | .[] | select(.name == "Test Results") | .id' > artifacts_list.txt
 
           LATEST_ARTIFACT_NUMBER=$(cut -d: -f 2 artifacts_list.txt | sort -n | tail -n 1)
 
@@ -88,7 +88,7 @@ jobs:
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
               -L -o my_artifact.zip \
-              https://api.github.com/repos/szandany/springboot_demo/actions/artifacts/"${LATEST_ARTIFACT_NUMBER}"/zip
+              https://api.github.com/repos/tsviz/springboot_demo/actions/artifacts/"${LATEST_ARTIFACT_NUMBER}"/zip
 
           mkdir test_results
           unzip my_artifact.zip -d test_results
@@ -127,7 +127,7 @@ jobs:
         uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Docker build
         run: |
-          docker build . -t ghcr.io/szandany/${{ github.repository }}:${{ github.run_number }}
+          docker build . -t ghcr.io/tsviz/${{ github.repository }}:${{ github.run_number }}
       - name: Log in to the GH Container Registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -136,7 +136,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker push
         run: |
-          docker push ghcr.io/szandany/${{ github.repository }}:${{ github.run_number }}
+          docker push ghcr.io/tsviz/${{ github.repository }}:${{ github.run_number }}
   
   runner-indexes:
     runs-on: ubuntu-latest
