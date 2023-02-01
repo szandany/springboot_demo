@@ -73,7 +73,7 @@ jobs:
           path: /root/.m2
           key: ${{ runner.os }}-uat-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-uat-
-      - run: >-
+      - run: |
           # Download the latest tests results artifact
           curl \
             -H "Accept: application/vnd.github+json" \
