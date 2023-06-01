@@ -63,7 +63,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v3 # defining cache key and restore keys for the cache step. Link to the documentation - https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
         with:
-          path: /root/.m2 # path to the directory where maven packages are stored - /root/.m2 in the container
+          path: ~/.m2/repository # path to the directory where maven packages are stored
           key: ${{ runner.os }}-build-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-build-
       # running liquibase quality checks step to ensure that the database changelogs are well-formed and follow best practices.
